@@ -199,28 +199,85 @@ export default function App() {
     const generatedId = `JALUR-${nip}-${Date.now()}`;
 
     try {
-      const response = await fetch("/api/submit", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json"
-        },
-        body: JSON.stringify({
-          step: "start",
-          idPerjalanan: generatedId,
-          nama,
-          nip,
-          jabatan,
-          tujuanJalur,
-          alamatCustomer,
-          noReceipt,
-          armada: finalArmada,
-          fotoLoading,
-          timestamp: new Date().toISOString(),
-          appsScriptUrl: appsScriptUrl.trim()
-        })
-      });
+      let response;
+      let result;
+      const targetUrl = appsScriptUrl.trim();
 
-      const result = await response.json();
+      if (targetUrl && targetUrl.startsWith("https://script.google.com/")) {
+        try {
+          console.log("Mencoba mengirim langsung ke Google Apps Script dari browser...");
+          response = await fetch(targetUrl, {
+            method: "POST",
+            mode: "cors",
+            headers: {
+              "Content-Type": "text/plain"
+            },
+            body: JSON.stringify({
+              step: "start",
+              idPerjalanan: generatedId,
+              nama,
+              nip,
+              jabatan,
+              tujuanJalur,
+              alamatCustomer,
+              noReceipt,
+              armada: finalArmada,
+              fotoLoading,
+              timestamp: new Date().toISOString()
+            })
+          });
+
+          if (!response.ok) {
+            throw new Error(`HTTP ${response.status}`);
+          }
+          const text = await response.text();
+          result = JSON.parse(text);
+        } catch (directErr) {
+          console.warn("Direct Apps Script fetch failed/CORS, falling back to Vercel proxy...", directErr);
+          response = await fetch("/api/submit", {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json"
+            },
+            body: JSON.stringify({
+              step: "start",
+              idPerjalanan: generatedId,
+              nama,
+              nip,
+              jabatan,
+              tujuanJalur,
+              alamatCustomer,
+              noReceipt,
+              armada: finalArmada,
+              fotoLoading,
+              timestamp: new Date().toISOString(),
+              appsScriptUrl: targetUrl
+            })
+          });
+          result = await response.json();
+        }
+      } else {
+        response = await fetch("/api/submit", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json"
+          },
+          body: JSON.stringify({
+            step: "start",
+            idPerjalanan: generatedId,
+            nama,
+            nip,
+            jabatan,
+            tujuanJalur,
+            alamatCustomer,
+            noReceipt,
+            armada: finalArmada,
+            fotoLoading,
+            timestamp: new Date().toISOString()
+          })
+        });
+        result = await response.json();
+      }
 
       if (response.ok && result.success) {
         const journey: ActiveJourney = {
@@ -271,22 +328,67 @@ export default function App() {
     setIsSubmitting(true);
 
     try {
-      const response = await fetch("/api/submit", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json"
-        },
-        body: JSON.stringify({
-          step: "customer",
-          idPerjalanan: activeJourney.idPerjalanan,
-          nip: activeJourney.nip,
-          fotoCustomer,
-          timestamp: new Date().toISOString(),
-          appsScriptUrl: appsScriptUrl.trim()
-        })
-      });
+      let response;
+      let result;
+      const targetUrl = appsScriptUrl.trim();
 
-      const result = await response.json();
+      if (targetUrl && targetUrl.startsWith("https://script.google.com/")) {
+        try {
+          console.log("Mencoba mengirim langsung ke Google Apps Script dari browser...");
+          response = await fetch(targetUrl, {
+            method: "POST",
+            mode: "cors",
+            headers: {
+              "Content-Type": "text/plain"
+            },
+            body: JSON.stringify({
+              step: "customer",
+              idPerjalanan: activeJourney.idPerjalanan,
+              nip: activeJourney.nip,
+              fotoCustomer,
+              timestamp: new Date().toISOString()
+            })
+          });
+
+          if (!response.ok) {
+            throw new Error(`HTTP ${response.status}`);
+          }
+          const text = await response.text();
+          result = JSON.parse(text);
+        } catch (directErr) {
+          console.warn("Direct Apps Script fetch failed/CORS, falling back to Vercel proxy...", directErr);
+          response = await fetch("/api/submit", {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json"
+            },
+            body: JSON.stringify({
+              step: "customer",
+              idPerjalanan: activeJourney.idPerjalanan,
+              nip: activeJourney.nip,
+              fotoCustomer,
+              timestamp: new Date().toISOString(),
+              appsScriptUrl: targetUrl
+            })
+          });
+          result = await response.json();
+        }
+      } else {
+        response = await fetch("/api/submit", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json"
+          },
+          body: JSON.stringify({
+            step: "customer",
+            idPerjalanan: activeJourney.idPerjalanan,
+            nip: activeJourney.nip,
+            fotoCustomer,
+            timestamp: new Date().toISOString()
+          })
+        });
+        result = await response.json();
+      }
 
       if (response.ok && result.success) {
         const updatedJourney: ActiveJourney = {
@@ -317,22 +419,67 @@ export default function App() {
     setIsSubmitting(true);
 
     try {
-      const response = await fetch("/api/submit", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json"
-        },
-        body: JSON.stringify({
-          step: "kembali",
-          idPerjalanan: activeJourney.idPerjalanan,
-          nip: activeJourney.nip,
-          fotoKembaliLoading,
-          timestamp: new Date().toISOString(),
-          appsScriptUrl: appsScriptUrl.trim()
-        })
-      });
+      let response;
+      let result;
+      const targetUrl = appsScriptUrl.trim();
 
-      const result = await response.json();
+      if (targetUrl && targetUrl.startsWith("https://script.google.com/")) {
+        try {
+          console.log("Mencoba mengirim langsung ke Google Apps Script dari browser...");
+          response = await fetch(targetUrl, {
+            method: "POST",
+            mode: "cors",
+            headers: {
+              "Content-Type": "text/plain"
+            },
+            body: JSON.stringify({
+              step: "kembali",
+              idPerjalanan: activeJourney.idPerjalanan,
+              nip: activeJourney.nip,
+              fotoKembaliLoading,
+              timestamp: new Date().toISOString()
+            })
+          });
+
+          if (!response.ok) {
+            throw new Error(`HTTP ${response.status}`);
+          }
+          const text = await response.text();
+          result = JSON.parse(text);
+        } catch (directErr) {
+          console.warn("Direct Apps Script fetch failed/CORS, falling back to Vercel proxy...", directErr);
+          response = await fetch("/api/submit", {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json"
+            },
+            body: JSON.stringify({
+              step: "kembali",
+              idPerjalanan: activeJourney.idPerjalanan,
+              nip: activeJourney.nip,
+              fotoKembaliLoading,
+              timestamp: new Date().toISOString(),
+              appsScriptUrl: targetUrl
+            })
+          });
+          result = await response.json();
+        }
+      } else {
+        response = await fetch("/api/submit", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json"
+          },
+          body: JSON.stringify({
+            step: "kembali",
+            idPerjalanan: activeJourney.idPerjalanan,
+            nip: activeJourney.nip,
+            fotoKembaliLoading,
+            timestamp: new Date().toISOString()
+          })
+        });
+        result = await response.json();
+      }
 
       if (response.ok && result.success) {
         // Clear active journey from local storage as it is finished!
