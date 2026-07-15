@@ -1,0 +1,10 @@
+{
+  "name": "Remix: Form Jalur Informa Alam Sutera",
+  "description": "Aplikasi pengisian formulir rute penanganan DO sales/supervisor Informa Alam Sutera dengan integrasi Google Sheets dan Drive secara instan.",
+  "requestFramePermissions": [
+    "camera"
+  ],
+  "majorCapabilities": [
+    "MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"
+  ]
+}
