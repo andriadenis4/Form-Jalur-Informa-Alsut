@@ -85,7 +85,7 @@ export default function App() {
 
   // Apps Script states for custom Google Sheets proxying
   const [appsScriptUrl, setAppsScriptUrl] = useState(() => {
-    return localStorage.getItem("apps_script_url") || "";
+    return localStorage.getItem("apps_script_url") || "https://script.google.com/macros/s/AKfycbwGx9Q8oaSimaiGydZAoiW8jWaX4VG3oirirLTwYfP0FjK6P-f8CMhzajrZ3ujAvHnBqA/exec";
   });
   const [showAppsScriptGuide, setShowAppsScriptGuide] = useState(false);
   const [saveSuccess, setSaveSuccess] = useState(false);

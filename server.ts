@@ -7,11 +7,13 @@ import fs from "fs";
 
 const APPS_SCRIPT_CONFIG_PATH = path.join(process.cwd(), "apps_script_config.json");
 
-let cachedAppsScriptUrl = "";
+let cachedAppsScriptUrl = "https://script.google.com/macros/s/AKfycbwGx9Q8oaSimaiGydZAoiW8jWaX4VG3oirirLTwYfP0FjK6P-f8CMhzajrZ3ujAvHnBqA/exec";
 try {
   if (fs.existsSync(APPS_SCRIPT_CONFIG_PATH)) {
     const configData = JSON.parse(fs.readFileSync(APPS_SCRIPT_CONFIG_PATH, "utf8"));
-    cachedAppsScriptUrl = configData.appsScriptUrl || "";
+    if (configData.appsScriptUrl) {
+      cachedAppsScriptUrl = configData.appsScriptUrl;
+    }
   }
 } catch (err) {
   console.error("Failed to read apps script config:", err);
